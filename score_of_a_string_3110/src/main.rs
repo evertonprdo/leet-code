@@ -1,3 +1,5 @@
+// The problem can be found at: https://leetcode.com/problems/score-of-a-string
+
 fn main() {
     let s = "hello";
     let result = score_of_string(String::from(s));
