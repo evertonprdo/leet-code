@@ -13,7 +13,7 @@ pub fn str_str(haystack: String, needle: String) -> i32 {
     let mut b = needle.len();
 
     while b <= haystack.len() {
-        if &haystack[a..b] == &needle {
+        if haystack[a..b] == *needle {
             return a as i32;
         }
 
