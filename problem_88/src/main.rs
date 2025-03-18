@@ -13,38 +13,31 @@ fn main() {
     }
 }
 
-// solution by: https://leetcode.com/problems/merge-sorted-array/solutions/6502120/simple-rust-solution/
+// solution by: https://leetcode.com/problems/merge-sorted-array/solutions/2838852/rust-o-n-simple-efficient-0ms/
 fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
-    let mut i = m - 1;
-    let mut j = n - 1;
-    let mut k: usize = (m + n - 1) as usize;
+    let mut i = m as usize;
+    let mut j = n as usize;
+    let mut k = i + j;
 
-    while i >= 0 && j >= 0 {
-        if nums1[i as usize] > nums2[j as usize] {
-            nums1[k] = nums1[i as usize];
+    while i < k {
+        if i > 0 && nums1[i - 1] > nums2[j - 1] {
+            nums1[k - 1] = nums1[i - 1];
             i -= 1;
         } else {
-            nums1[k] = nums2[j as usize];
+            nums1[k - 1] = nums2[j - 1];
             j -= 1;
         }
-
         k -= 1;
-    }
-
-    while j >= 0 {
-        nums1[k] = nums2[j as usize];
-        k -= 1;
-        j -= 1;
     }
 }
 
-//                 k
+//                 |<-k
 // [1, 2, 3, 0, 0, 0]
 
-//        i
+//        |<-i
 // [1, 2, 3, 0, 0, 0]
 
-//        j
+//        |<-j
 // [2, 5, 6]
 
 // [1, 2, 3, 0, 0, 0]
