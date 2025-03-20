@@ -6,16 +6,44 @@ fn main() {
     println!("{}", add_binary(a, b));
 }
 
-/* Add bit by bit from back to front taking into account the table below
-   carry = on:
-   0 + 0 = 1; carry = off
-   0 + 1 = 0
-   1 + 1 = 1
+/* Add Binary String: The table below is the rules of how to proceed in each iteration:
+   "x" represent the current iteration result based on the operation;
 
-   carry = off:
-   0 + 0 = 0
-   0 + 1 = 1
-   1 + 1 = 0; carry = on
+    if carry == true:
+        x = 0 + 0 => 1,
+        x = 0 + 1 => 0,
+        x = 1 + 1 => 1,
+        if a + b == 0 + 0 then set carry to false;
+
+    if carry == false:
+        x = 0 + 0 => 0,
+        x = 0 + 1 => 1,
+        x = 1 + 1 => 0,
+        if a + b == 1 + 1 then set carry to true;
+
+    or you can think about it as carry determine the result and
+    a == b determine if you need to check the (a|b)'s value.
+
+        if carry == true && a == b then return 1;
+        else return 0;
+
+        if carry == false && a == b then return 0
+        else return 1;
+
+        if carry == true && a == 0 && b == 0
+            then set carry = false;
+
+        if carry == false && a == 1 && b == 1
+            then set carry = true;
+
+        else you don't need to change the carry's value.
+
+    The solution iterates backwards and checks the above rules, and at the end:
+
+        if carry == true
+            then add the remaining 1 to the index 0 and build the String
+        else
+            build a String based on a slice[1..]
 */
 
 const ZERO: u8 = 48; // ASCII 0
@@ -54,27 +82,5 @@ pub fn add_binary(a: String, b: String) -> String {
         sum[i] = ONE;
         return String::from_utf8(sum).unwrap();
     }
-    String::from_utf8(sum[1..sum.len()].to_vec()).unwrap()
+    String::from_utf8(sum[1..].to_vec()).unwrap()
 }
-
-/* my first ifs
-   sum[i] = if carry {
-       if bit_a == bit_b {
-           if bit_a == 48 {
-               carry = false;
-           }
-           49
-       } else {
-           48
-       }
-   } else {
-       if bit_a == bit_b {
-           if bit_a == 49 {
-               carry = true;
-           };
-           48
-       } else {
-           49
-       }
-   };
-*/
