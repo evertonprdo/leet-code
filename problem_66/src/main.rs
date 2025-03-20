@@ -10,10 +10,6 @@ pub fn plus_one(digits: Vec<i32>) -> Vec<i32> {
     let mut one_was_added = false;
 
     for d in digits.iter_mut().rev() {
-        if one_was_added {
-            break;
-        };
-
         *d = match d {
             9 => 0,
             _ => {
@@ -21,6 +17,10 @@ pub fn plus_one(digits: Vec<i32>) -> Vec<i32> {
                 *d + 1
             }
         };
+
+        if one_was_added {
+            break;
+        }
     }
 
     if one_was_added {
