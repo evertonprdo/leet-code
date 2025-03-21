@@ -7,9 +7,9 @@ fn main() {
 
 fn title_to_number(column_title: String) -> i32 {
     let mut sum: i32 = 0;
-    for b in column_title.bytes() {
-        //                      64 = 'A' - 1
-        sum = (sum * 26) + (b - 64) as i32
+    for b in column_title.as_bytes().iter() {
+        //                       64 = 'A' - 1
+        sum = (sum * 26) + (*b - 64) as i32
     }
     sum
 }
