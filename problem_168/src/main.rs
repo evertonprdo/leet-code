@@ -5,27 +5,33 @@ fn main() {
     println!("{}", convert_to_title(ipt));
 }
 
-const BOUNDARIES: [usize; 6] = [27, 703, 18279, 475255, 12356631, 321272407];
 pub fn convert_to_title(column_number: i32) -> String {
     let mut n = column_number;
-    let mut s = BOUNDARIES
-        .iter()
-        .position(|&x| (n as usize) < x)
-        .map_or(7, |i| i + 1);
+    let mut s = log_int_26(&(n as usize * 25 + 1));
 
     let mut title: Vec<u8> = vec![0; s];
 
     while n > 0 {
         let rest = (n % 26) as u8;
-
-        //                           b'Z'        x + b'A' - 1
         title[s - 1] = if rest == 0 { 90 } else { rest + 64 };
-        s -= 1;
 
+        s -= 1;
         n = (n - 1) / 26;
     }
 
     String::from_utf8(title).unwrap()
+}
+
+fn log_int_26(n: &usize) -> usize {
+    let mut count = 0;
+    let mut res = 26;
+
+    while res <= *n {
+        res *= 26;
+        count += 1;
+    }
+
+    count
 }
 
 /* For this solution I reversed this:
@@ -50,4 +56,12 @@ pub fn convert_to_title(column_number: i32) -> String {
     475255    -> 5
     12356631  -> 6
     321272407 -> 7
+*/
+
+/* log_int_26:
+    L = log 26 (N x 25 + 1)
+    N = column_number
+    L = number of characters
+
+    The formula simulates the logarithm base 26 of (N * 25 + 1), rounded down.
 */
