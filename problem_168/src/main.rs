@@ -6,8 +6,8 @@ fn main() {
 }
 
 pub fn convert_to_title(column_number: i32) -> String {
-    let mut n = column_number;
-    let mut s = (n as usize * 25 + 1).ilog(26) as usize;
+    let mut n = column_number as u64;
+    let mut s = n_chars(n);
 
     let mut title: Vec<u8> = vec![0; s];
 
@@ -20,6 +20,20 @@ pub fn convert_to_title(column_number: i32) -> String {
     }
 
     String::from_utf8(title).unwrap()
+}
+
+fn n_chars(n: u64) -> usize {
+    let n = n * 25 + 1;
+
+    let mut result = 0;
+    let mut cmp = 26;
+
+    while cmp <= n {
+        cmp *= 26;
+        result += 1;
+    }
+
+    return result;
 }
 
 /* For this solution I reversed this:
