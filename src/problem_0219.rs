@@ -1,37 +1,29 @@
 // 219. Contains Duplicate II: https://leetcode.com/problems/contains-duplicate-ii
 use std::collections::HashMap;
 
-fn main() {
-    // let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9]; // [1,2,3,1]
-    let nums = [1, 2, 3, 1, 2, 3];
+pub struct Solution {}
+impl Solution {
+    pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
+        let mut map: HashMap<&i32, usize> = HashMap::with_capacity(nums.len());
+        let k = k as usize;
 
-    let k = 2;
+        for (i, n) in nums.iter().enumerate() {
+            match map.get(n) {
+                Some(prev) if i - prev <= k => return true,
+                _ => map.insert(n, i),
+            };
+        }
 
-    println!("{}", contains_nearby_duplicate(nums.to_vec(), k));
-    println!("{}", Solution::contains_nearby_duplicate(nums.to_vec(), k))
-}
-
-// Based on the 0ms solution:
-fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
-    let mut map: HashMap<&i32, usize> = HashMap::with_capacity(nums.len());
-    let k = k as usize;
-
-    for (i, n) in nums.iter().enumerate() {
-        match map.get(n) {
-            Some(prev) if i - prev <= k => return true,
-            _ => map.insert(n, i),
-        };
+        false
     }
-
-    false
 }
 
 // https://leetcode.com/problems/contains-duplicate-ii/solutions/1627864/rust-replacing-hashmap-with-a-bit-set-faster-than-100/?envType=problem-list-v2&envId=sliding-window
 const ABS_MAX: usize = 1_000_000_000; // Range is +/- 10.pow(9)
 const N_VALS: usize = ABS_MAX * 2 + 1; // Number of possible values.
 
-struct Solution {}
-impl Solution {
+pub struct BitSetSolution {}
+impl BitSetSolution {
     pub fn contains_nearby_duplicate(nums: Vec<i32>, k: i32) -> bool {
         if k == 0 || nums.len() < 2 {
             return false;
@@ -66,11 +58,9 @@ impl Solution {
 
 const N_BITS: usize = 64;
 type BlockType = u64;
-
-struct BitSet {
+pub struct BitSet {
     bits: Vec<BlockType>,
 }
-
 impl BitSet {
     fn new(n_vals: usize) -> Self {
         Self {
@@ -88,5 +78,37 @@ impl BitSet {
         } else {
             self.bits[idx / N_BITS] &= !(1 << idx % N_BITS);
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn example_01() {
+        let nums = [1, 2, 3, 1];
+        let k = 3;
+
+        assert!(Solution::contains_nearby_duplicate(nums.to_vec(), k));
+        assert!(BitSetSolution::contains_nearby_duplicate(nums.to_vec(), k));
+    }
+
+    #[test]
+    fn example_02() {
+        let nums = [1, 0, 1, 1];
+        let k = 1;
+
+        assert!(Solution::contains_nearby_duplicate(nums.to_vec(), k));
+        assert!(BitSetSolution::contains_nearby_duplicate(nums.to_vec(), k));
+    }
+
+    #[test]
+    fn example_03() {
+        let nums = [1, 2, 3, 1, 2, 3];
+        let k = 2;
+
+        assert!(!Solution::contains_nearby_duplicate(nums.to_vec(), k));
+        assert!(!BitSetSolution::contains_nearby_duplicate(nums.to_vec(), k));
     }
 }
