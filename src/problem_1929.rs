@@ -17,10 +17,9 @@ impl Solution {
     }
 
     fn fit_capacity_to_double_length(nums: &mut Vec<i32>) {
-        let cap = nums.capacity();
         let target = nums.len() * 2;
 
-        if target > cap {
+        if target > nums.capacity() {
             nums.reserve_exact(nums.len());
         } else {
             nums.shrink_to(target);
