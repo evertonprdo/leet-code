@@ -1,19 +1,30 @@
 // 1929. Concatenation of Array: https://leetcode.com/problems/concatenation-of-array
 
 // First attempt
-// Time Complexity: O(2n) -> O(n)
+// Time Complexity: O(n)
 // Space Complexity: O(n)
 pub struct Solution {}
 impl Solution {
     pub fn get_concatenation(mut nums: Vec<i32>) -> Vec<i32> {
         let len = nums.len();
+        Self::fit_capacity_to_double_length(&mut nums);
 
-        nums.resize(len * 2, 0);
         for i in 0..len {
-            nums[i + len] = nums[i];
+            nums.push(nums[i]);
         }
 
         nums
+    }
+
+    fn fit_capacity_to_double_length(nums: &mut Vec<i32>) {
+        let cap = nums.capacity();
+        let target = nums.len() * 2;
+
+        if target > cap {
+            nums.reserve_exact(nums.len());
+        } else {
+            nums.shrink_to(target);
+        }
     }
 }
 
@@ -35,5 +46,26 @@ mod test {
         let output = vec![1, 3, 2, 1, 1, 3, 2, 1];
 
         assert_eq!(Solution::get_concatenation(nums), output);
+    }
+
+    #[test]
+    fn test_fit_capacity_to_double_length() {
+        let mut nums = Vec::new();
+        Solution::fit_capacity_to_double_length(&mut nums);
+        assert_eq!(nums.capacity(), 0);
+
+        nums.push(1);
+        Solution::fit_capacity_to_double_length(&mut nums);
+        assert_eq!(nums.capacity(), 2);
+
+        nums.pop();
+        Solution::fit_capacity_to_double_length(&mut nums);
+        assert_eq!(nums.capacity(), 0);
+
+        for i in 0..32 {
+            nums.push(i);
+            Solution::fit_capacity_to_double_length(&mut nums);
+            assert_eq!(nums.capacity(), nums.len() * 2);
+        }
     }
 }
