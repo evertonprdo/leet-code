@@ -47,14 +47,14 @@ impl IdxSolution {
         let mut max = 0;
 
         while let Some(curr) = bytes.get(r) {
-            let c = *curr as usize - 32;
+            let c = *curr as usize;
             if !set[c] {
                 set[c] = true;
                 r += 1;
                 max = max.max(r - l);
             } else {
                 while set[c] {
-                    let c = *bytes.get(l).unwrap() as usize - 32;
+                    let c = *bytes.get(l).unwrap() as usize;
                     set[c] = false;
                     l += 1;
                 }
