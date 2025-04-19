@@ -39,7 +39,7 @@ impl IdxSolution {
     // Time Complexity: O(n)
     // Space Complexity: O(1)
     pub fn length_of_longest_substring(s: String) -> i32 {
-        let mut set = [false; 127];
+        let mut set = [false; 256];
         let bytes = s.as_bytes();
 
         let mut r = 0;
