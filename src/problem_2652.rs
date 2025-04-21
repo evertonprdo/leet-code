@@ -1,4 +1,4 @@
-// 190. Reverse Bits: https://leetcode.com/problems/reverse-bits
+// 2652. Sum Multiples: https://leetcode.com/problems/sum-multiples
 
 pub struct Solution {}
 impl Solution {
