@@ -1,8 +1,8 @@
 use leetcode::problem_0374::{LoopSolution, Solution};
 use std::{thread, time::Instant};
 
-// while: 164.154800297s
-// loop: 178.203034157s
+// loop: 131.886888675s
+// while: 140.615024344s
 fn main() {
     let handle1 = thread::spawn(move || {
         let now = Instant::now();

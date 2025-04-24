@@ -12,7 +12,7 @@ impl Solution {
         let mut high = n;
 
         while low < high {
-            let mid = low + (high - low) / 2;
+            let mid = low + (high - low >> 1);
             match self.guess(mid) {
                 0 => return mid,
                 1 => low = mid + 1,
@@ -49,7 +49,7 @@ impl LoopSolution {
         let mut high = n;
 
         loop {
-            let mid = low + (high - low) / 2;
+            let mid = low + (high - low >> 1);
             match self.guess(mid) {
                 0 => return mid,
                 1 => low = mid + 1,
