@@ -87,6 +87,33 @@ impl Solution {
     }
 }
 
+pub struct VerticalSolution {}
+impl VerticalSolution {
+    // https://leetcode.com/problems/multiply-strings/solutions/1563507/c-simple-easy-and-short-solution-brief-explanation
+    pub fn multiply(num1: String, num2: String) -> String {
+        if num1 == "0" || num2 == "0" {
+            return "0".to_string();
+        }
+
+        let n1: Vec<u8> = num1.into_bytes().into_iter().map(|x| x - b'0').collect();
+        let n2: Vec<u8> = num2.into_bytes().into_iter().map(|x| x - b'0').collect();
+
+        let mut res = vec![0; n1.len() + n2.len()];
+        for i in (0..=n1.len() - 1).rev() {
+            for j in (0..=n2.len() - 1).rev() {
+                res[i + j + 1] += n1[i] * n2[j];
+                res[i + j] += res[i + j + 1] / 10;
+                res[i + j + 1] %= 10;
+            }
+        }
+
+        res.into_iter()
+            .skip_while(|&d| d == 0)
+            .map(|d| (b'0' + d) as char)
+            .collect()
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -101,6 +128,11 @@ mod test {
             Solution::multiply(num1.to_string(), num2.to_string()),
             output.to_string()
         );
+
+        assert_eq!(
+            VerticalSolution::multiply(num1.to_string(), num2.to_string()),
+            output.to_string()
+        );
     }
 
     #[test]
@@ -111,6 +143,11 @@ mod test {
 
         assert_eq!(
             Solution::multiply(num1.to_string(), num2.to_string()),
+            output.to_string()
+        );
+
+        assert_eq!(
+            VerticalSolution::multiply(num1.to_string(), num2.to_string()),
             output.to_string()
         );
     }
