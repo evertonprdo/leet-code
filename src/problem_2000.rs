@@ -45,6 +45,38 @@ impl SwapSolution {
     }
 }
 
+pub struct TwoPointerSolution {}
+impl TwoPointerSolution {
+    // Two-Pointer Solution with less `built-in functions`
+    // Time Complexity: O(n)
+    // Space Complexity: O(1)
+    pub fn reverse_prefix(word: String, ch: char) -> String {
+        let mut bytes = word.into_bytes();
+
+        // Find
+        let mut r = 0;
+        let mut ch_was_found = false;
+        for c in bytes.iter() {
+            r += 1;
+            if *c == ch as u8 {
+                ch_was_found = true;
+                break;
+            }
+        }
+        // & Swap
+        if ch_was_found {
+            let mut l = 0;
+            while l < r {
+                r -= 1;
+                (bytes[l], bytes[r]) = (bytes[r], bytes[l]);
+                l += 1;
+            }
+        }
+
+        unsafe { String::from_utf8_unchecked(bytes) }
+    }
+}
+
 pub struct Solution5093573 {}
 impl Solution5093573 {
     // https://leetcode.com/problems/reverse-prefix-of-word/solutions/5093573/rust-0ms
@@ -78,6 +110,10 @@ mod test {
             Solution5093573::reverse_prefix(word.to_string(), ch),
             output.to_string()
         );
+        assert_eq!(
+            TwoPointerSolution::reverse_prefix(word.to_string(), ch),
+            output.to_string()
+        );
     }
 
     #[test]
@@ -98,6 +134,10 @@ mod test {
             Solution5093573::reverse_prefix(word.to_string(), ch),
             output.to_string()
         );
+        assert_eq!(
+            TwoPointerSolution::reverse_prefix(word.to_string(), ch),
+            output.to_string()
+        );
     }
 
     #[test]
@@ -116,6 +156,10 @@ mod test {
         );
         assert_eq!(
             Solution5093573::reverse_prefix(word.to_string(), ch),
+            output.to_string()
+        );
+        assert_eq!(
+            TwoPointerSolution::reverse_prefix(word.to_string(), ch),
             output.to_string()
         );
     }
