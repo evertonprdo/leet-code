@@ -31,12 +31,4 @@ mod test {
 
         assert_eq!(Solution::get_sum(a, b), output);
     }
-
-    #[test]
-    fn example_03() {
-        let (a, b) = (2, -3);
-        let output = 5;
-
-        assert_eq!(Solution::get_sum(a, b), output);
-    }
 }
