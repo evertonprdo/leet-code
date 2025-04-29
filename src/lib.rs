@@ -20,6 +20,7 @@ pub mod problem_0191;
 pub mod problem_0219;
 pub mod problem_0231;
 pub mod problem_0283;
+pub mod problem_0338;
 pub mod problem_0344;
 pub mod problem_0367;
 pub mod problem_0371;
