@@ -14,6 +14,16 @@ impl Solution {
     }
 }
 
+pub struct SqrtSolution {}
+impl SqrtSolution {
+    // https://leetcode.com/problems/arranging-coins/solutions/6648828/master-the-math-formula-trick-to-solve-the-staircase-coin-problem-fast
+    pub fn arrange_coins(n: i32) -> i32 {
+        let n = n as f64;
+        let result = ((8.0 * n + 1.0).sqrt() - 1.0) / 2.0;
+        result.floor() as i32
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;

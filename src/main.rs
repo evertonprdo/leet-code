@@ -1,31 +1,31 @@
-use leetcode::problem_0374::{LoopSolution, Solution};
+use leetcode::problem_0441::{Solution, SqrtSolution};
 use std::{thread, time::Instant};
 
-// loop: 131.886888675s
-// while: 140.615024344s
 fn main() {
+    let n = 1_000_000;
+
+    // O(sqrt(n)): 277.566868ms
     let handle1 = thread::spawn(move || {
         let now = Instant::now();
 
-        for i in 1..i32::MAX {
-            let solution = Solution { pick: i };
-            assert_eq!(solution.guess_number(i32::MAX), i);
+        for i in 1..=n {
+            let _ = Solution::arrange_coins(i);
         }
 
         let time = now.elapsed();
-        println!("while: {:?}", time);
+        println!("O(sqrt(n)): {:?}", time);
     });
 
+    // O(1): 15.642956ms
     let handle2 = thread::spawn(move || {
         let now = Instant::now();
 
-        for i in 1..i32::MAX {
-            let solution = LoopSolution { pick: i };
-            assert_eq!(solution.guess_number(i32::MAX), i);
+        for i in 1..=n {
+            let _ = SqrtSolution::arrange_coins(i);
         }
 
         let time = now.elapsed();
-        println!("loop: {:?}", time);
+        println!("O(1): {:?}", time);
     });
 
     handle1.join().ok();
