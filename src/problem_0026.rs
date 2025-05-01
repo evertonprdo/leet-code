@@ -2,18 +2,23 @@
 
 pub struct Solution {}
 impl Solution {
-    // Inspired by the “Snowball” solution (see problem_0283.rs)
+    // Inspired in the Snowball Solution: problem_0283.rs
     // Time Complexity: O(n)
     // Space Complexity: O(1)
-    //
-    // The `l` pointer trails `r` until it encounters the first duplicate.
-    // At that point, `l` marks the position where the next unique element should be placed.
-    //
-    // In a no-duplicate scenario, `r - l == 0` and nothing is changed.
-    // Once a duplicate is found, `r` continues to advance, so `r - l > 0`.
-    // When a new unique value appears, it’s copied into `nums[l]`, and `l` is incremented.
-    //
-    // Any values “behind” `l` are overwritten in-place (not swapped), since they’re no longer needed.
+
+    // `l` follows `r` until a duplicate pair appears,
+    // so `l` stores the index of the first duplicate value in the array.
+
+    // In other words, when l - r == 0 nothing changes.
+    // When a duplicate pair appears, r increments,
+    // creating an offset between l and r, making r - l > 0.
+    // This causes arr[l] to receive the next non-duplicate value.
+
+    // After an offset occurs, all non-duplicate values ​​are copied accordingly,
+    // because now r - l > 0 is always true, a duplicate value just increments that offset.
+
+    // The value of left is overwritten and not swapped,
+    // because those values ​​are no longer important.
     pub fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
         let mut l = 1;
 
