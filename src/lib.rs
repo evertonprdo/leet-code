@@ -5,6 +5,7 @@ pub mod problem_0013;
 pub mod problem_0014;
 pub mod problem_0020;
 pub mod problem_0026;
+pub mod problem_0027;
 pub mod problem_0028;
 pub mod problem_0035;
 pub mod problem_0043;
