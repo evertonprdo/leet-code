@@ -19,6 +19,25 @@ impl Solution {
     }
 }
 
+pub struct SolutionMem {}
+impl SolutionMem {
+    // Time Complexity: O(n)
+    // Space Complexity: O(n)
+    pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let mut tmp = Vec::new();
+        let mut k = 0;
+
+        for n in std::mem::take(nums) {
+            if n != val {
+                tmp.push(n);
+                k += 1;
+            }
+        }
+        *nums = tmp;
+        k
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -38,6 +57,14 @@ mod test {
         for i in 0..expected.len() {
             assert_eq!(nums[i], expected[i]);
         }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionMem::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
     }
 
     #[test]
@@ -50,6 +77,39 @@ mod test {
 
         let mut nums = input.clone();
         assert_eq!(Solution::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionMem::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+    }
+
+    #[test]
+    fn example_03() {
+        let input = vec![0, 4, 4, 0, 4, 4, 4, 0, 2];
+        let val = 4;
+
+        let k = 4;
+        let expected = vec![];
+
+        let mut nums = input.clone();
+        assert_eq!(Solution::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionMem::remove_element(&mut nums, val), k as i32);
 
         nums[..k].sort();
         for i in 0..expected.len() {
