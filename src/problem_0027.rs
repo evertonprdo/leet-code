@@ -21,7 +21,7 @@ impl Solution {
 
 pub struct SolutionSwap {}
 impl SolutionSwap {
-    // GPT tip
+    // GPT tip (this means that I was trying to do this and asked for a little help in a section, but GPT gave the answer)
     // Time Complexity: O(n)
     // Space Complexity: O(1)
     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
@@ -43,20 +43,16 @@ impl SolutionSwap {
 
 pub struct SolutionMem {}
 impl SolutionMem {
+    // It feels like `nums.filter()`
     // Time Complexity: O(n)
     // Space Complexity: O(n)
     pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
-        let mut tmp = Vec::new();
-        let mut k = 0;
-
         for n in std::mem::take(nums) {
             if n != val {
-                tmp.push(n);
-                k += 1;
+                nums.push(n);
             }
         }
-        *nums = tmp;
-        k
+        nums.len() as i32
     }
 }
 
