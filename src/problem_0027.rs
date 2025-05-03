@@ -19,6 +19,28 @@ impl Solution {
     }
 }
 
+pub struct SolutionSwap {}
+impl SolutionSwap {
+    // GPT tip
+    // Time Complexity: O(n)
+    // Space Complexity: O(1)
+    pub fn remove_element(nums: &mut Vec<i32>, val: i32) -> i32 {
+        let mut l = 0;
+        let mut r = nums.len();
+
+        while l < r {
+            if nums[l] == val {
+                r -= 1;
+                nums.swap(l, r);
+            } else {
+                l += 1;
+            }
+        }
+
+        l as i32
+    }
+}
+
 pub struct SolutionMem {}
 impl SolutionMem {
     // Time Complexity: O(n)
@@ -65,6 +87,14 @@ mod test {
         for i in 0..expected.len() {
             assert_eq!(nums[i], expected[i]);
         }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionSwap::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
     }
 
     #[test]
@@ -90,6 +120,14 @@ mod test {
         for i in 0..expected.len() {
             assert_eq!(nums[i], expected[i]);
         }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionSwap::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
     }
 
     #[test]
@@ -110,6 +148,80 @@ mod test {
 
         let mut nums = input.clone();
         assert_eq!(SolutionMem::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionSwap::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+    }
+
+    #[test]
+    fn example_04() {
+        let input = vec![3, 3];
+        let val = 3;
+
+        let k = 0;
+        let expected = vec![];
+
+        let mut nums = input.clone();
+        assert_eq!(Solution::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionMem::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionSwap::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+    }
+
+    #[test]
+    fn example_05() {
+        let input = vec![2, 2, 3];
+        let val = 2;
+
+        let k = 1;
+        let expected = vec![3];
+
+        let mut nums = input.clone();
+        assert_eq!(Solution::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionMem::remove_element(&mut nums, val), k as i32);
+
+        nums[..k].sort();
+        for i in 0..expected.len() {
+            assert_eq!(nums[i], expected[i]);
+        }
+
+        let mut nums = input.clone();
+        assert_eq!(SolutionSwap::remove_element(&mut nums, val), k as i32);
 
         nums[..k].sort();
         for i in 0..expected.len() {

@@ -1,33 +1,40 @@
-use leetcode::problem_0441::{Solution, SqrtSolution};
-use std::{thread, time::Instant};
+use std::time::Instant;
+
+use leetcode::problem_0027::{Solution, SolutionMem, SolutionSwap};
 
 fn main() {
     let n = 1_000_000;
+    let k = 0b1;
 
-    // O(sqrt(n)): 277.566868ms
-    let handle1 = thread::spawn(move || {
-        let now = Instant::now();
+    let val = 2;
 
-        for i in 1..=n {
-            let _ = Solution::arrange_coins(i);
-        }
+    let f = |x| {
+        // if x > n / 2 { x } else { val }
+        // if x < n / 2 { x } else { val }
+        if x & k == k { x } else { val }
+        // x
+        // val
+    };
+    let input: Vec<i32> = (0..n).map(f).collect();
 
-        let time = now.elapsed();
-        println!("O(sqrt(n)): {:?}", time);
-    });
+    let mut nums = input.clone();
+    let now = Instant::now();
+    let _ = Solution::remove_element(&mut nums, val);
+    let time = now.elapsed();
 
-    // O(1): 15.642956ms
-    let handle2 = thread::spawn(move || {
-        let now = Instant::now();
+    println!("Solution: {:?}", time);
 
-        for i in 1..=n {
-            let _ = SqrtSolution::arrange_coins(i);
-        }
+    let mut nums = input.clone();
+    let now = Instant::now();
+    let _ = SolutionMem::remove_element(&mut nums, val);
+    let time = now.elapsed();
 
-        let time = now.elapsed();
-        println!("O(1): {:?}", time);
-    });
+    println!("SolutionMem: {:?}", time);
 
-    handle1.join().ok();
-    handle2.join().ok();
+    let mut nums = input.clone();
+    let now = Instant::now();
+    let _ = SolutionSwap::remove_element(&mut nums, val);
+    let time = now.elapsed();
+
+    println!("SolutionSwap: {:?}", time);
 }
