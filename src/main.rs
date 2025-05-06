@@ -1,40 +1,40 @@
-use std::time::Instant;
+use std::{thread, time::Instant};
 
-use leetcode::problem_0027::{Solution, SolutionMem, SolutionSwap};
+use leetcode::problem_0007::{CleanSolution, PreCheckedSolution, Solution};
 
 fn main() {
-    let n = 1_000_000;
-    let k = 0b1;
+    let min = i32::MIN;
+    let max = i32::MAX;
 
-    let val = 2;
+    // Solution: 74.162040014s
+    // CleanSolution: 79.919042034s
+    // PreCheckedSolution: 87.646985567s
+    thread::scope(|s| {
+        s.spawn(|| {
+            let now = Instant::now();
+            for i in min..=max {
+                let _ = Solution::reverse(i);
+            }
+            let time = now.elapsed();
+            println!("Solution: {:?}", time);
+        });
+        s.spawn(|| {
+            let now = Instant::now();
+            for i in min..=max {
+                let _ = CleanSolution::reverse(i);
+            }
+            let time = now.elapsed();
 
-    let f = |x| {
-        // if x > n / 2 { x } else { val }
-        // if x < n / 2 { x } else { val }
-        if x & k == k { x } else { val }
-        // x
-        // val
-    };
-    let input: Vec<i32> = (0..n).map(f).collect();
+            println!("CleanSolution: {:?}", time);
+        });
+        s.spawn(|| {
+            let now = Instant::now();
+            for i in min..=max {
+                let _ = PreCheckedSolution::reverse(i);
+            }
+            let time = now.elapsed();
 
-    let mut nums = input.clone();
-    let now = Instant::now();
-    let _ = Solution::remove_element(&mut nums, val);
-    let time = now.elapsed();
-
-    println!("Solution: {:?}", time);
-
-    let mut nums = input.clone();
-    let now = Instant::now();
-    let _ = SolutionMem::remove_element(&mut nums, val);
-    let time = now.elapsed();
-
-    println!("SolutionMem: {:?}", time);
-
-    let mut nums = input.clone();
-    let now = Instant::now();
-    let _ = SolutionSwap::remove_element(&mut nums, val);
-    let time = now.elapsed();
-
-    println!("SolutionSwap: {:?}", time);
+            println!("PreCheckedSolution: {:?}", time);
+        });
+    });
 }

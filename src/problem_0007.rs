@@ -5,17 +5,17 @@ impl Solution {
     // Time Complexity: O(log n)
     // Space Complexity: O(1)
     pub fn reverse(mut x: i32) -> i32 {
+        const BASE: i32 = 10;
         let mut res: i32 = 0;
 
         while x != 0 {
-            if let Some(y) = res.checked_mul(10) {
-                if let Some(z) = y.checked_add(x % 10) {
-                    res = z;
-                    x /= 10;
-                    continue;
+            match res.checked_mul(BASE) {
+                Some(y) => {
+                    res = y + x % BASE;
+                    x /= BASE;
                 }
+                None => return 0,
             }
-            return 0;
         }
 
         res
@@ -26,21 +26,21 @@ pub struct CleanSolution {}
 impl CleanSolution {
     // https://leetcode.com/problems/reverse-integer/solutions/1086285/idiomatic-rust-solution-via-checked-ops/
     pub fn reverse(x: i32) -> i32 {
-        Self::reverse_checked(x).unwrap_or(0)
-    }
-
-    fn reverse_checked(mut num: i32) -> Option<i32> {
-        let mut res: i32 = 0;
-        while num != 0 {
+        fn reverse_checked(mut num: i32) -> Option<i32> {
             const DEC_BASE: i32 = 10;
+            let mut res: i32 = 0;
 
-            let digit = num % DEC_BASE;
-            num /= DEC_BASE;
+            while num != 0 {
+                let digit = num % DEC_BASE;
+                num /= DEC_BASE;
 
-            res = res.checked_mul(DEC_BASE)?;
-            res = res.checked_add(digit)?;
+                res = res.checked_mul(DEC_BASE)?;
+                res = res.checked_add(digit)?;
+            }
+            Some(res)
         }
-        Some(res)
+
+        reverse_checked(x).unwrap_or(0)
     }
 }
 
@@ -48,20 +48,23 @@ pub struct PreCheckedSolution {}
 impl PreCheckedSolution {
     // https://leetcode.com/problems/reverse-integer/solutions/5572539/easy-and-simple-c-approach-beats-100-beginner-friendly/
     pub fn reverse(mut num: i32) -> i32 {
+        const BASE: i32 = 10;
         let mut res: i32 = 0;
-        while num != 0 {
-            const BASE: i32 = 10;
 
+        while num != 0 {
+            if res.abs() > i32::MAX / BASE {
+                return 0;
+            }
             let digit = num % BASE;
 
             // In this problem it is impossible to get an overflow after multiplication
             // but this ensures that neither multiplication nor addition causes overflow.
             // res > (Boundary - digit) / BASE
-            if res > (i32::MAX - digit.abs()) / BASE || res < (i32::MIN + digit.abs()) / BASE {
-                return 0;
-            }
+            // if res > (i32::MAX - digit.abs()) / BASE || res < (i32::MIN + digit.abs()) / BASE {
+            //     return 0;
+            // }
 
-            res = res * BASE + digit;
+            res = (res * BASE).checked_add(digit).unwrap(); // run-time overflowing check
             num /= BASE;
         }
         res
