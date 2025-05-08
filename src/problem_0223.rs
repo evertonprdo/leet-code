@@ -95,7 +95,8 @@ mod test {
         let second = Rectangle::from(Point { x: 0, y: -1 }, Point { x: 9, y: 2 });
         let output = 45;
 
-        assert_solution(first, second, output, Solution::compute_area);
+        assert_solution(&first, &second, output, Solution::compute_area);
+        assert_solution(&first, &second, output, CmpSolution::compute_area);
     }
 
     #[test]
@@ -104,7 +105,8 @@ mod test {
         let second = Rectangle::from(Point { x: -2, y: -2 }, Point { x: 2, y: 2 });
         let output = 16;
 
-        assert_solution(first, second, output, Solution::compute_area);
+        assert_solution(&first, &second, output, Solution::compute_area);
+        assert_solution(&first, &second, output, CmpSolution::compute_area);
     }
 
     #[test]
@@ -113,7 +115,8 @@ mod test {
         let second = Rectangle::from(Point { x: 3, y: 3 }, Point { x: 4, y: 4 });
         let output = 17;
 
-        assert_solution(first, second, output, Solution::compute_area);
+        assert_solution(&first, &second, output, Solution::compute_area);
+        assert_solution(&first, &second, output, CmpSolution::compute_area);
     }
 
     struct Point {
@@ -129,7 +132,7 @@ mod test {
             Rectangle { bl, tr }
         }
     }
-    fn assert_solution<F>(first: Rectangle, second: Rectangle, expected: i32, f: F)
+    fn assert_solution<F>(first: &Rectangle, second: &Rectangle, expected: i32, f: F)
     where
         F: Fn(i32, i32, i32, i32, i32, i32, i32, i32) -> i32,
     {
