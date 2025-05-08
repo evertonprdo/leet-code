@@ -29,8 +29,8 @@ impl Solution {
         by2: i32,
     ) -> i32 {
         fn rectangle_area(bl: (i32, i32), tr: (i32, i32)) -> (i32, i32, i32) {
-            let width = (tr.0 - bl.0).abs();
-            let height = (tr.1 - bl.1).abs();
+            let width = tr.0 - bl.0;
+            let height = tr.1 - bl.1;
 
             (width, height, width * height)
         }
@@ -42,26 +42,46 @@ impl Solution {
         if ax1 >= bx2 || bx1 >= ax2 || ay1 >= by2 || by1 >= ay2 {
             return a_area + b_area;
         }
-
         let (cx1, cy1, cx2, cy2) = (ax1.min(bx1), ay1.min(by1), ax2.max(bx2), ay2.max(by2));
-
-        println!("Wrapper rectangle points: ({cx1}, {cy1}) | ({cx2}, {cy2})");
 
         let (c_width, c_height, c_area) = rectangle_area((cx1, cy1), (cx2, cy2));
 
-        println!("a. width: {a_width}, height: {a_height}, area: {a_area}");
-        println!("b. width: {b_width}, height: {b_height}, area: {b_area}");
-        println!("c. width: {c_width}, height: {c_height}, area: {c_area}");
-
-        let (d_width, d_height) = ((c_width - a_width).abs(), (c_height - b_height).abs());
-        let (e_width, e_height) = ((c_width - b_width).abs(), (c_height - a_height).abs());
+        let (d_width, d_height) = (c_width - a_width, c_height - b_height);
+        let (e_width, e_height) = (c_width - b_width, c_height - a_height);
 
         let (d_area, e_area) = (d_width * d_height, e_width * e_height);
 
-        println!("d. width: {d_width}, height: {d_height}, area: {d_area}");
-        println!("e. width: {e_width}, height: {e_height}, area: {e_area}");
-
         c_area - d_area - e_area
+    }
+}
+
+pub struct CmpSolution {}
+impl CmpSolution {
+    // https://leetcode.com/problems/rectangle-area/solutions/6686585/easy-c-100-o-1/
+    pub fn compute_area(
+        ax1: i32,
+        ay1: i32,
+        ax2: i32,
+        ay2: i32,
+        bx1: i32,
+        by1: i32,
+        bx2: i32,
+        by2: i32,
+    ) -> i32 {
+        use std::cmp::{max, min};
+
+        let a_area = (ax2 - ax1) * (ay2 - ay1);
+        let b_area = (bx2 - bx1) * (by2 - by1);
+
+        // Ok, I though to do that but i perform it wrong
+        let cx1 = max(ax1, bx1);
+        let cy1 = max(ay1, by1);
+        let cx2 = min(ax2, bx2);
+        let cy2 = min(ay2, by2);
+        // and then I overcomplicated things
+
+        let overlap_area = max(0, cx2 - cx1) * max(0, cy2 - cy1);
+        (a_area + b_area) - overlap_area
     }
 }
 
