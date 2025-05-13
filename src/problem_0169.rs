@@ -20,6 +20,25 @@ impl Solution {
     }
 }
 
+pub struct OtherSolution {}
+impl OtherSolution {
+    // https://leetcode.com/problems/majority-element/solutions/5845732/video-2-solutions-using-hashmap-o-n-space-and-without-hashmap-o-1-space
+    pub fn majority_element(nums: Vec<i32>) -> i32 {
+        let mut res = 0;
+        let mut majority = 0;
+
+        for n in nums {
+            if majority == 0 {
+                res = n;
+            }
+
+            majority += if n == res { 1 } else { -1 };
+        }
+
+        res
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -30,6 +49,7 @@ mod test {
         let output = 3;
 
         assert_eq!(Solution::majority_element(nums.to_vec()), output);
+        assert_eq!(OtherSolution::majority_element(nums.to_vec()), output);
     }
 
     #[test]
@@ -38,5 +58,6 @@ mod test {
         let output = 2;
 
         assert_eq!(Solution::majority_element(nums.to_vec()), output);
+        assert_eq!(OtherSolution::majority_element(nums.to_vec()), output);
     }
 }
