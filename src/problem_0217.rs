@@ -2,6 +2,8 @@
 
 pub struct Solution {}
 impl Solution {
+    // Time Complexity: O(n)
+    // Space Complexity: O(1)
     pub fn contains_duplicate(nums: Vec<i32>) -> bool {
         let mut set = BitSet::new();
 
