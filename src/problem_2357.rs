@@ -24,6 +24,29 @@ impl Solution {
     }
 }
 
+pub struct Solution128 {}
+impl Solution128 {
+    // Time Complexity: O(n)
+    // Space Complexity: O(1)
+    pub fn minimum_operations(nums: Vec<i32>) -> i32 {
+        let mut bitset: u128 = 0;
+        let mut unique_non_zeros = 0;
+
+        for n in nums {
+            if n != 0 {
+                let b = n % 128;
+
+                if (bitset & (1 << b)) == 0 {
+                    bitset |= 1 << b;
+                    unique_non_zeros += 1;
+                }
+            }
+        }
+
+        unique_non_zeros
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -34,6 +57,7 @@ mod test {
         let output = 3;
 
         assert_eq!(Solution::minimum_operations(nums.to_vec()), output);
+        assert_eq!(Solution128::minimum_operations(nums.to_vec()), output);
     }
 
     #[test]
@@ -42,6 +66,7 @@ mod test {
         let output = 0;
 
         assert_eq!(Solution::minimum_operations(nums.to_vec()), output);
+        assert_eq!(Solution128::minimum_operations(nums.to_vec()), output);
     }
 
     #[test]
@@ -50,5 +75,6 @@ mod test {
         let output = 4;
 
         assert_eq!(Solution::minimum_operations(nums.to_vec()), output);
+        assert_eq!(Solution128::minimum_operations(nums.to_vec()), output);
     }
 }
