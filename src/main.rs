@@ -4,14 +4,16 @@ use leetcode::problem_2357::{Solution, Solution128};
 
 fn main() {
     let mut nums: Vec<Vec<i32>> = Vec::with_capacity(99);
-    for (i, n) in nums.iter_mut().enumerate() {
+    for i in 1..=100 {
+        nums.push(Vec::with_capacity(i));
+
         for k in 0..i {
-            n.push(k as i32);
+            nums[i - 1].push(k as i32);
         }
     }
 
-    // u64: 113ns
-    // u128: 62ns
+    // u64: 12.157µs
+    // u128: 12.522µs <- It usually takes slightly longer
     thread::scope(|s| {
         s.spawn(|| {
             let nums = nums.clone();
