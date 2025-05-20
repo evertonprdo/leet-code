@@ -32,11 +32,12 @@ impl DiffSolution {
             diff[r + 1] -= 1;
         }
 
+        // GPT tip
         nums.iter()
             .zip(diff.into_iter())
-            .scan(0i32, |sum, (&num, delta)| {
+            .scan(0i32, |sum, (num, delta)| {
                 *sum += delta;
-                Some(num <= *sum)
+                Some(num <= sum)
             })
             .all(|ok| ok)
     }
