@@ -45,7 +45,7 @@ mod test {
     #[test]
     fn example_04() {
         let n = 0;
-        let output = 1;
+        let output = 0;
 
         assert_eq!(Solution::fib(n), output);
     }
