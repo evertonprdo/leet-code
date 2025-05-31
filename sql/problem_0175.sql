@@ -10,9 +10,7 @@ CREATE TABLE IF NOT EXISTS Address (
     addressId   INT PRIMARY KEY,
     personId    INT NOT NULL,
     city        VARCHAR(40) NOT NULL,
-
-    CONSTRAINT fk_person FOREIGN KEY (personId) 
-        REFERENCES Person(personId)
+    state       VARCHAR(40) NOT NULL
 );
 
 -- # Solutions
@@ -35,7 +33,7 @@ INSERT INTO Person VALUES
 
 INSERT INTO Address VALUES
 ( 1, 2, 'New York City' , 'New York'  ),
-( 2, 3, 'Leetcode'      , 'California');
+( 2, 3, 'Leetcode'      , 'California')
     ON CONFLICT (addressId) DO NOTHING;
 
 SELECT * FROM Solution;
@@ -43,5 +41,6 @@ SELECT * FROM Solution;
 -- Clean db
 
 DROP VIEW IF EXISTS Solution;
+
 DROP TABLE IF EXISTS Person;
 DROP TABLE IF EXISTS Address;
