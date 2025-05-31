@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS Employee (
 );
 
 -- ## Solutions
-CREATE VIEW Solution AS
+
+CREATE OR REPLACE VIEW Solution AS
     SELECT e1.name AS Employee
 
     FROM Employee AS e1
@@ -18,7 +19,8 @@ CREATE VIEW Solution AS
 ;
 
 -- Best postgreSQL runtime solution:
-CREATE VIEW OldSchoolSolution AS
+
+CREATE OR REPLACE VIEW OldSchoolSolution AS
     SELECT e.name AS Employee
 
     FROM Employee e, Employee m
