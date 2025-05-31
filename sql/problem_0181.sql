@@ -6,6 +6,27 @@ CREATE TABLE IF NOT EXISTS Employee (
     salary      INT NOT NULL,
     managerId   INT
 );
+
+-- ## Solutions
+CREATE VIEW Solution AS
+    SELECT e1.name AS Employee
+
+    FROM Employee AS e1
+    INNER JOIN Employee AS e2 ON e2.id = e1.managerId
+
+    WHERE e1.salary > e2.salary
+;
+
+-- Best postgreSQL runtime solution:
+CREATE VIEW OldSchoolSolution AS
+    SELECT e.name AS Employee
+
+    FROM Employee e, Employee m
+    WHERE e.managerId = m.id AND e.salary > m.salary
+;
+
+-- Example 1:
+
 INSERT INTO Employee (id, name, salary, managerId)
 VALUES
 (1, 'Joe',  70000, 3),
@@ -14,22 +35,11 @@ VALUES
 (4, 'Max',  90000, Null)
 ON CONFLICT (id) DO NOTHING;
 
--- ## Solutions
-
-SELECT e1.name AS Employee
-
-FROM Employee AS e1
-INNER JOIN Employee AS e2 ON e2.id = e1.managerId
-
-WHERE e1.salary > e2.salary
-;
--- Best postgreSQL runtime solution:
-
-SELECT e.name AS Employee
-
-FROM Employee e, Employee m
-WHERE e.managerId = m.id AND e.salary > m.salary
-;
+SELECT * FROM Solution;
+SELECT * FROM OldSchoolSolution;
 
 -- Clean db
+DROP VIEW IF EXISTS Solution;
+DROP VIEW IF EXISTS OldSchoolSolution;
+
 DROP TABLE IF EXISTS Employee;
