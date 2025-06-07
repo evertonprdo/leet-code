@@ -50,6 +50,7 @@ pub mod problem_1108;
 pub mod problem_1342;
 pub mod problem_1470;
 pub mod problem_1550;
+pub mod problem_1684;
 pub mod problem_1720;
 pub mod problem_1791;
 pub mod problem_1920;
